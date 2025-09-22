@@ -79,6 +79,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v11.5
+      env:
+        VCPKG_BINARY_SOURCES: default,readwrite
+
     - name: Normalize and strip /vcpkg_cache
       run: |
         # Convert backslashes to forward slashes
