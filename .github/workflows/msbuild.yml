@@ -59,13 +59,13 @@ jobs:
         - run: pwd
         
         - run: echo "Top-level contents:"
-        - run: ls -la
+        - run: "ls"
         
         - run: echo "Check intermediate path:"
-        - run: ls -la ./969f6665-88a2-4c98-938e-ca9259871fec
+        - run: "ls ./969f6665-88a2-4c98-938e-ca9259871fec"
         
         - run: echo "Final vcpkg_cache dir:"
-        - run: ls -la ./969f6665-88a2-4c98-938e-ca9259871fec/vcpkg_cache/
+        - run: "ls ./969f6665-88a2-4c98-938e-ca9259871fec/vcpkg_cache/"
   build:
     runs-on: windows-latest
 
