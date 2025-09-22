@@ -57,7 +57,12 @@ jobs:
             path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
             key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
 
-        - run: "ls ${{ hashFiles('**/TestPipeline/vcpkg.json') }} "
+        - name: Strip /vcpkg_cache from VCPKG_DEFAULT_BINARY_CACHE
+          run: |
+            $base = $env:VCPKG_DEFAULT_BINARY_CACHE -replace '\\vcpkg_cache$',''
+            echo "Base path without /vcpkg_cache: $base"
+            echo "BASE_PATH=$base" >> $env:GITHUB_ENV
+        - run: ls "$BASE_PATH"
   build:
     runs-on: windows-latest
 
