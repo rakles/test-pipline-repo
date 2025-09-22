@@ -62,7 +62,7 @@ jobs:
             $base = $env:VCPKG_DEFAULT_BINARY_CACHE -replace '\\vcpkg_cache$',''
             echo "Base path without /vcpkg_cache: $base"
             echo "BASE_PATH=$base" >> $env:GITHUB_ENV
-        - run: ls "$BASE_PATH"
+        - run: ls "$env:BASE_PATH"
   build:
     runs-on: windows-latest
 
