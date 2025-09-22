@@ -73,6 +73,7 @@ jobs:
             key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
 
   build:
+    needs: update-vcpkg-cache
     runs-on: windows-latest
 
     steps:
