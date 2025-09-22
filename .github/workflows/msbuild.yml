@@ -38,25 +38,7 @@ jobs:
           uses: lukka/run-vcpkg@v11.5
           env:
             VCPKG_BINARY_SOURCES: default,readwrite
-  
-        - uses: actions/cache/restore@v4.2.4
-          with:
-            path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-            key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }} 
-  
-        - name: Build vcpkg
-          uses: lukka/run-vcpkg@v11.5
-          with:
-            runVcpkgInstall: true
-            vcpkgJsonGlob: '**/TestPipeline/vcpkg.json'
-          env:
-            VCPKG_BINARY_SOURCES: default,readwrite
-        
-        - uses: actions/cache/save@v4.2.4
-          with:
-            path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-            key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
-
+            
         - name: Normalize and strip /vcpkg_cache
           run: |
             # Convert backslashes to forward slashes
@@ -71,7 +53,25 @@ jobs:
             # Export for later steps
             echo "BASE_PATH=$base_path" >> $GITHUB_ENV
           shell: bash
-        - run: ls "$env:BASE_PATH"
+  
+        - uses: actions/cache/restore@v4.2.4
+          with:
+            path: ${{ $env:BASE_PATH }}
+            key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }} 
+  
+        - name: Build vcpkg
+          uses: lukka/run-vcpkg@v11.5
+          with:
+            runVcpkgInstall: true
+            vcpkgJsonGlob: '**/TestPipeline/vcpkg.json'
+          env:
+            VCPKG_BINARY_SOURCES: default,readwrite
+        
+        - uses: actions/cache/save@v4.2.4
+          with:
+            path: ${{ $env:BASE_PATH }}
+            key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
+
   build:
     runs-on: windows-latest
 
