@@ -56,7 +56,7 @@ jobs:
   
         - uses: actions/cache/restore@v4.2.4
           with:
-            path: ${{ $BASE_PATH }}
+            path: ${{ env.BASE_PATH }}
             key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }} 
   
         - name: Build vcpkg
@@ -69,7 +69,7 @@ jobs:
         
         - uses: actions/cache/save@v4.2.4
           with:
-            path: ${{ $BASE_PATH }}
+            path: ${{ env.BASE_PATH }}
             key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
 
   build:
