@@ -4,3 +4,5 @@ TestPipeline/x64/
 TestPipeline/TestPipeline/x64/
 
 TestPipeline/.vs/
+
+TestPipeline/vcpkg_installed/
