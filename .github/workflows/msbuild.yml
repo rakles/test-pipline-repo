@@ -55,9 +55,17 @@ jobs:
             path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
             key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
 
-        - run: Write-Output $env:VCPKG_DEFAULT_BINARY_CACHE
-        - run: ls
-        - run: ls ./969f6665-88a2-4c98-938e-ca9259871fec/vcpkg_cache/
+        - run: echo "Current dir:"
+        - run: pwd
+        
+        - run: echo "Top-level contents:"
+        - run: ls -la
+        
+        - run: echo "Check intermediate path:"
+        - run: ls -la ./969f6665-88a2-4c98-938e-ca9259871fec
+        
+        - run: echo "Final vcpkg_cache dir:"
+        - run: ls -la ./969f6665-88a2-4c98-938e-ca9259871fec/vcpkg_cache/
   build:
     runs-on: windows-latest
 
