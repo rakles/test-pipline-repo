@@ -13,7 +13,7 @@ on:
 
 env:
   # Path to the solution file relative to the root of the project.
-  SOLUTION_FILE_PATH: .
+  SOLUTION_FILE_PATH: ./TestPipeline/TestPipeline.sln
 
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
@@ -78,6 +78,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Normalize and strip /vcpkg_cache
+      run: |
+        # Convert backslashes to forward slashes
+        norm_path="${VCPKG_DEFAULT_BINARY_CACHE//\\//}"
+        
+        # Strip trailing /vcpkg_cache
+        base_path="${norm_path%/vcpkg_cache}"
+        
+        echo "Normalized path: $norm_path"
+        echo "Base path: $base_path"
+        
+        # Export for later steps
+        echo "BASE_PATH=$base_path" >> $GITHUB_ENV
+      shell: bash
+
+    - uses: actions/cache/restore@v4.2.4
+      with:
+        path: ${{ env.BASE_PATH }}
+        key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }} 
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
