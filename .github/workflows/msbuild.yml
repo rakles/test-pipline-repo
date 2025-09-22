@@ -37,7 +37,7 @@ jobs:
         - name: Setup vcpkg
           uses: lukka/run-vcpkg@v11.5
           env:
-            VCPKG_BINARY_SOURCES: default,rw
+            VCPKG_BINARY_SOURCES: default,readwrite
   
         - uses: actions/cache/restore@v4.2.4
           with:
@@ -50,7 +50,7 @@ jobs:
             runVcpkgInstall: true
             vcpkgJsonGlob: '**/TestPipeline/vcpkg.json'
           env:
-            VCPKG_BINARY_SOURCES: default,rw
+            VCPKG_BINARY_SOURCES: default,readwrite
         
         - uses: actions/cache/save@v4.2.4
           with:
