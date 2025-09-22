@@ -54,6 +54,8 @@ jobs:
           with:
             path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
             key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
+
+        - run: Write-Output $env:VCPKG_DEFAULT_BINARY_CACHE
   build:
     runs-on: windows-latest
 
