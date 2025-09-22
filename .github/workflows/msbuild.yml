@@ -103,6 +103,13 @@ jobs:
       with:
         path: ${{ env.BASE_PATH }}
         key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }} 
+    - name: Build vcpkg
+      uses: lukka/run-vcpkg@v11.5
+      with:
+        runVcpkgInstall: true
+        vcpkgJsonGlob: '**/TestPipeline/vcpkg.json'
+      env:
+        VCPKG_BINARY_SOURCES: default,readwrite
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
