@@ -27,50 +27,14 @@ jobs:
   update-vcpkg-cache:
       runs-on: windows-latest
       steps:
-        - uses: actions/checkout@v5
-          with:
-            submodules: 'true'
-  
-        - name: Install latest CMake and Ninja.
-          uses: lukka/get-cmake@latest
-  
-        - name: Setup vcpkg
-          uses: lukka/run-vcpkg@v11.5
-          env:
-            VCPKG_BINARY_SOURCES: default,readwrite
-            
-        - name: Normalize and strip /vcpkg_cache
-          run: |
-            # Convert backslashes to forward slashes
-            norm_path="${VCPKG_DEFAULT_BINARY_CACHE//\\//}"
-            
-            # Strip trailing /vcpkg_cache
-            base_path="${norm_path%/vcpkg_cache}"
-            
-            echo "Normalized path: $norm_path"
-            echo "Base path: $base_path"
-            
-            # Export for later steps
-            echo "BASE_PATH=$base_path" >> $GITHUB_ENV
-          shell: bash
-  
-        - uses: actions/cache/restore@v4.2.4
-          with:
-            path: ${{ env.BASE_PATH }}
-            key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }} 
-  
-        - name: Build vcpkg
-          uses: lukka/run-vcpkg@v11.5
-          with:
-            runVcpkgInstall: true
-            vcpkgJsonGlob: '**/TestPipeline/vcpkg.json'
-          env:
-            VCPKG_BINARY_SOURCES: default,readwrite
+      - uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: ./bootstrap.ps1
+
         
-        - uses: actions/cache/save@v4.2.4
-          with:
-            path: ${{ env.BASE_PATH }}
-            key: ${{ runner.os }}-vcpkg-cache-${{ hashFiles('**/TestPipeline/vcpkg.json') }}
+  
+        
 
   build:
     needs: update-vcpkg-cache
